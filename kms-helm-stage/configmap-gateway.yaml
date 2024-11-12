@@ -1,0 +1,17 @@
+apiVersion: v1
+data:
+  ASC_CONN__BLOCKCHAIN__ADDRESSES: http://kms-validator.kms-stage.svc.cluster.local:9090
+  GATEWAY__ETHEREUM__FHE_LIB_ADDRESS: 000000000000000000000000000000000000005d
+  GATEWAY__ETHEREUM__HTTP_URL: https://staging-node-rpc.cypherscan.ai/
+  GATEWAY__ETHEREUM__LISTENER_TYPE: FHEVM_V1_1
+  GATEWAY__ETHEREUM__ORACLE_PREDEPLOY_ADDRESS: "0xAF25431c071461311aD227b1f2c6eBBD380768A6"
+  GATEWAY__ETHEREUM__RELAYER_KEY: 04e8be8577c12045cd60c04cd87d12947a6f467a92edf88b35596ad194f06001
+  GATEWAY__ETHEREUM__WSS_URL: ws://18.117.166.170:8450
+  GATEWAY__KMS__ADDRESS: http://kms-validator.kms-stage.svc.cluster.local:9090
+  GATEWAY__KMS__KEY_ID: 408d8cbaa51dece7f782fe04ba0b1c1d017b1088
+  GATEWAY__STORAGE__URL: http://gateway-store.kms-stage.svc.cluster.local:8088
+  RUST_BACKTRACE: debug
+kind: ConfigMap
+metadata:
+  name: gateway
+  namespace: kms-stage

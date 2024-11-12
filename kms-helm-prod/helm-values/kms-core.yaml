@@ -1,0 +1,78 @@
+replicaCount: 1
+
+port: 50051
+
+
+canary:
+  enabled: false
+  
+normal_deploy:
+  enabled: true
+
+version: api-v1
+istio_url: kms-core.cypherscan.ai
+image:
+  repository:  ghcr.io/zama-ai/kms-service-dev
+  pullPolicy: Always
+  tag: v0.7.1
+  command: [] #ENTRYPOINT
+  args: [] #CMD
+  containerPort: 50051
+  livenessProbe:
+    execCommand: ["sh", "-c", "grpc-health-probe --addr=localhost:50051"]
+    initialDelaySeconds: 10
+    periodSeconds: 1
+    timeoutSeconds: 1
+    successThreshold: 1
+    failureThreshold: 5
+  readinessProbe:
+    execCommand: ["sh", "-c", "grpc-health-probe --addr=localhost:50051"]
+    initialDelaySeconds: 10
+    periodSeconds: 1
+    timeoutSeconds: 1
+    successThreshold: 1
+    failureThreshold: 5
+
+strategy:
+  rollingUpdate:
+    maxSurge: 1
+    maxUnavailable: 0
+
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+
+serviceAccount:
+  create: false
+  annotations: {}
+  name: ""
+
+podAnnotations:
+  product: api
+
+podSecurityContext: {}
+
+securityContext: {}
+
+service:
+  type: ClusterIP
+  port: 50051
+
+
+resources:
+  requests:
+    cpu: 250m
+    memory: 512Mi
+
+autoscaling:
+  enabled: true
+  minReplicas: 1
+  maxReplicas: 1
+  targetCPUUtilizationPercentage: 80
+  targetMemoryUtilizationPercentage: 80
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}

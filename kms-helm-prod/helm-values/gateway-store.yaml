@@ -1,0 +1,76 @@
+replicaCount: 1
+
+port: 8088
+
+normal_deploy:
+  enabled: true
+
+canary:
+  enabled: false
+
+version: api-v1
+istio_url: gateway-store.cypherscan.ai
+image:
+  repository: ghcr.io/zama-ai/kms-blockchain-gateway-dev
+  pullPolicy: Always
+  tag: v0.7.1
+  command: [] # ENTRYPOINT
+  args: ["kv_store"] # CMD
+  containerPort: 8088
+  livenessProbe:
+    execCommand: ["ls", "/"] # Comando para o livenessProbe
+    initialDelaySeconds: 10
+    periodSeconds: 30
+    successThreshold: 1
+    failureThreshold: 3
+    timeoutSeconds: 5
+  readinessProbe:
+    execCommand: ["ls", "/"] # Comando para o readinessProbe
+    initialDelaySeconds: 10
+    periodSeconds: 30
+    successThreshold: 1
+    failureThreshold: 3
+    timeoutSeconds: 5
+
+strategy:
+  rollingUpdate:
+    maxSurge: 1
+    maxUnavailable: 0
+
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+
+serviceAccount:
+  create: false
+  annotations: {}
+  name: ""
+
+podAnnotations:
+  product: api
+
+podSecurityContext: {}
+
+securityContext: {}
+
+service:
+  type: ClusterIP
+  port: 8088
+
+resources:
+  requests:
+    cpu: 250m
+    memory: 512Mi
+
+autoscaling:
+  enabled: true
+  minReplicas: 1
+  maxReplicas: 1
+  targetCPUUtilizationPercentage: 80
+  targetMemoryUtilizationPercentage: 80
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}

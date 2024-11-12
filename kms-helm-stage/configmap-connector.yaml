@@ -1,0 +1,13 @@
+apiVersion: v1
+data:
+  ASC_CONN__BLOCKCHAIN__ADDRESSES: http://kms-validator.kms-stage.svc.cluster.local:9090
+  ASC_CONN__CORE__ADDRESSES: http://kms-core.kms-stage.svc.cluster.local:50051
+  ASC_CONN__CORE__TIMEOUT_CONFIG__DECRYPTION__INITIAL_WAIT_TIME: "5"
+  ASC_CONN__CORE__TIMEOUT_CONFIG__DECRYPTION__RETRY_INTERVAL: "5"
+  ASC_CONN__CORE__TIMEOUT_CONFIG__REENCRYPTION__INITIAL_WAIT_TIME: "5"
+  ASC_CONN__CORE__TIMEOUT_CONFIG__REENCRYPTION__RETRY_INTERVAL: "5"
+  ASC_CONN__STORE__URL: http://gateway-store.kms-stage.svc.cluster.local:8088
+kind: ConfigMap
+metadata:
+  name: connector
+  namespace: kms-stage

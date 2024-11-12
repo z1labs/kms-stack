@@ -1,0 +1,45 @@
+name: Deploy KMS Stack on Production
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "kms-helm-prod/**"
+# on:
+#   schedule:
+#     - cron: '0 */2 * * *' # Executa a cada 2 horas
+#   workflow_dispatch:
+#     inputs:
+#       branch:
+#         description: 'Branch to deploy'
+#         required: true
+#         default: 'main'
+#         type: string
+
+jobs:
+  rebuild-kms-stack:
+    name: Restart KMS stack
+    runs-on: ubuntu-20.04
+    environment: Development
+    timeout-minutes: 30
+    steps:
+      - name: Build - Git Checkout
+        uses: actions/checkout@v2
+        with:
+          ref: ${{ github.event.inputs.branch }}
+      - name: Build - Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-2
+      - name: Helming
+        working-directory: ./kms-helm-prod
+        run: |
+          aws eks --region $AWS_REGION update-kubeconfig --name cypher_project-prod
+          helm uninstall -n kms gateway gateway-store connector kms-core kms-validator
+          helm upgrade --install kms-validator  -n kms ./cypher-helm-exposed-multiport  -f ./helm-values/kms-validator.yaml
+          helm upgrade --install kms-core  -n kms ./cypher-helm-exposed-cmd  -f ./helm-values/kms-core.yaml
+          helm upgrade --install connector  -n kms ./cypher-helm  -f ./helm-values/connector-not-exposed.yaml
+          helm upgrade --install gateway-store  -n kms ./cypher-helm-exposed  -f ./helm-values/gateway-store.yaml
+          helm upgrade --install gateway  -n kms ./cypher-helm-exposed-gateway  -f ./helm-values/gateway.yaml

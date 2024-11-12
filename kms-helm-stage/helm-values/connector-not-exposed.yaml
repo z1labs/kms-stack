@@ -1,0 +1,76 @@
+replicaCount: 1
+
+port: 36656
+
+normal_deploy:
+  enabled: true
+
+canary:
+  enabled: false
+
+version: api-v1
+
+image:
+  repository: ghcr.io/zama-ai/kms-blockchain-connector-dev
+  pullPolicy: Always
+  tag: v0.7.1
+  containerPort: 36656
+  command: [] #ENTRYPOINT
+  args: ["kms-blockchain-connector"] #CMD
+  livenessProbe:
+    path: /
+    port: 36656
+    periodSeconds: 300
+    successThreshold: 1
+    failureThreshold: 3
+    timeoutSeconds: 1
+  readinessProbe:
+    path: /
+    port: 36656
+    periodSeconds: 30
+    successThreshold: 1
+    failureThreshold: 3
+    timeoutSeconds: 1
+
+strategy:
+  rollingUpdate:
+    maxSurge: 1
+    maxUnavailable: 0
+
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+
+serviceAccount:
+  create: false
+  annotations: {}
+  name: ""
+
+podAnnotations:
+  product: api
+
+podSecurityContext: {}
+
+securityContext: {}
+
+service:
+  type: ClusterIP
+  port: 36656
+
+resources:
+  requests:
+    cpu: 250m
+    memory: 512Mi
+
+autoscaling:
+  enabled: true
+  minReplicas: 1
+  maxReplicas: 1
+  targetCPUUtilizationPercentage: 80
+  targetMemoryUtilizationPercentage: 80
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
