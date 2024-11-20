@@ -37,7 +37,7 @@ jobs:
         working-directory: ./kms-helm-stage
         run: |
           aws eks --region $AWS_REGION update-kubeconfig --name cypher_project-prod
-          helm uninstall -n kms-stage gateway gateway-store connector kms-core kms-validator
+          kubectl apply -f configmap-connector.yaml configmap-gateway-store.yaml configmap-gateway.yaml configmap-kms-core.yaml configmap-kms-validator.yaml
           helm upgrade --install kms-validator  -n kms-stage ./cypher-helm-exposed-multiport  -f ./helm-values/kms-validator.yaml
           helm upgrade --install kms-core  -n kms-stage ./cypher-helm-exposed-cmd  -f ./helm-values/kms-core.yaml
           helm upgrade --install connector  -n kms-stage ./cypher-helm  -f ./helm-values/connector-not-exposed.yaml
