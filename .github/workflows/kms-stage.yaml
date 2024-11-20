@@ -15,7 +15,6 @@ on:
 #         required: true
 #         default: 'main'
 #         type: string
-
 jobs:
   rebuild-kms-stack:
     name: Restart KMS stack
