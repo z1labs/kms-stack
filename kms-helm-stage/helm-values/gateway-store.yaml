@@ -70,7 +70,5 @@ autoscaling:
   targetMemoryUtilizationPercentage: 80
 
 nodeSelector: {}
-
 tolerations: []
-
 affinity: {}
