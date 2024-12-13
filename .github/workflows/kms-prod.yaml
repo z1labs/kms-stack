@@ -4,17 +4,7 @@ on:
     branches:
       - main
     paths:
-      - "kms-helm-prod/**"
-# on:
-#   schedule:
-#     - cron: '0 */2 * * *' # Executa a cada 2 horas
-#   workflow_dispatch:
-#     inputs:
-#       branch:
-#         description: 'Branch to deploy'
-#         required: true
-#         default: 'main'
-#         type: string
+      - "gateway-v2/cypher-helm-exposed-gateway/**"
 
 jobs:
   rebuild-kms-stack:
@@ -34,12 +24,7 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-2
       - name: Helming
-        working-directory: ./kms-helm-prod
+        working-directory: ./gateway-v2/cypher-helm-exposed-gateway
         run: |
           aws eks --region $AWS_REGION update-kubeconfig --name cypher_project-prod
-          helm uninstall -n kms gateway gateway-store connector kms-core kms-validator
-          helm upgrade --install kms-validator  -n kms ./cypher-helm-exposed-multiport  -f ./helm-values/kms-validator.yaml
-          helm upgrade --install kms-core  -n kms ./cypher-helm-exposed-cmd  -f ./helm-values/kms-core.yaml
-          helm upgrade --install connector  -n kms ./cypher-helm  -f ./helm-values/connector-not-exposed.yaml
-          helm upgrade --install gateway-store  -n kms ./cypher-helm-exposed  -f ./helm-values/gateway-store.yaml
-          helm upgrade --install gateway  -n kms ./cypher-helm-exposed-gateway  -f ./helm-values/gateway.yaml
+          helm upgrade --install gateway -n kms . -f ./values.yaml

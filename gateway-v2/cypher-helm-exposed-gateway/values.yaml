@@ -1,0 +1,100 @@
+replicaCount: 1
+
+port: 4000
+
+normal_deploy:
+  enabled: true
+
+canary:
+  enabled: false
+
+version: api-v1
+istio_url: gateway.cypherscan.ai
+image:
+  repository: antongulak/gateway
+  pullPolicy: Always
+  tag: prod10
+  # command: [] #ENTRYPOINT
+  # args: ["gateway"] #CMD
+  containerPort: 4000
+  livenessProbe:
+    path: /health
+    port: 4000
+    periodSeconds: 300
+    successThreshold: 1
+    failureThreshold: 3
+    timeoutSeconds: 1
+  readinessProbe:
+    path: /health
+    port: 4000
+    periodSeconds: 30
+    successThreshold: 1
+    failureThreshold: 3
+    timeoutSeconds: 1
+env:
+  - name: REDIS_URL
+    value: "redis://redis-master:6379"
+  - name: RPC_URL
+    value: "http://10.20.6.57:8449"
+  - name: CHAIN_ID
+    value: 10111
+  - name: VERSION
+    value: 1
+  - name: CHAIN_NAME
+    value: CYPHER-TESTNET
+  - name: PRIVATE_KEY_GATEWAY_RELAYER
+    value: "dcaeadb391e0d2efa0f87eff7ce85f56fd19f43ed11ad250fe8d42ab80b753ce"
+  - name: GATEWAY_CONTRACT_PREDEPLOY_ADDRESS
+    value: "0xAF25431c071461311aD227b1f2c6eBBD380768A6"
+  - name: MULTICALL_ROUTER_ADDRESS
+    value: "0x3bC3C340e9507Ba66846f64C9FEc3421FC4fb1b6"
+  - name: THFE_EXECUTOR_CONTRACT_ADDRESS
+    value: "0x95d8A2A36F9a2dAA92f30Ff16cE062434c32Ae20"
+  - name: ACL_CONTRACT
+    value: "0x4B0B495995C31857096e8B41837bE23A8895A37C"
+  - name: FHE_CLIENT_KEY_PATH
+    value: "/app/network-fhe-keys/cks"
+  - name: JWT_SECRET
+    value: "secret"
+strategy:
+  rollingUpdate:
+    maxSurge: 1
+    maxUnavailable: 0
+
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+
+serviceAccount:
+  create: false
+  annotations: {}
+  name: ""
+
+podAnnotations:
+  product: api
+
+podSecurityContext: {}
+
+securityContext: {}
+
+service:
+  type: ClusterIP
+  port: 4000
+
+resources:
+  requests:
+    cpu: 500m
+    memory: 1024Mi
+
+autoscaling:
+  enabled: true
+  minReplicas: 1
+  maxReplicas: 1
+  targetCPUUtilizationPercentage: 80
+  targetMemoryUtilizationPercentage: 80
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
