@@ -1,6 +1,6 @@
 apiVersion: v2
 name: cypher-gateway-v2
-description: Helm Chart Cypher Gateway Project
+description: Helm Chart for Cypher Gateway
 
 # A chart can be either an 'application' or a 'library' chart.
 #
