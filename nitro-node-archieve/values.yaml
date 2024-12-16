@@ -3,7 +3,7 @@ s3:
   folderPath: network-fhe-keys
   secretName: aws-creds
 node:
-  image: "antongulak/nitro:stable"
+  image: "590184127530.dkr.ecr.us-east-2.amazonaws.com/cypher/nitro:time"
   parentChainUrl: "https://arb-sepolia.g.alchemy.com/v2/J6ReedhfHGJsUOLlcY7fN1y3FeMPjsk3"
   chainId: 10111
   chainName: "Cypher testnet"
