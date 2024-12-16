@@ -1,0 +1,83 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: "{{ .Release.Name }}-node"
+  labels:
+    app: "{{ .Release.Name }}-node"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: "{{ .Release.Name }}-node"
+  template:
+    metadata:
+      labels:
+        app: "{{ .Release.Name }}-node"
+    spec:
+      initContainers:  # Add an init container
+        - name: fetch-s3-data
+          image: amazon/aws-cli:latest  # Use an image with AWS CLI
+          command:
+            - /bin/sh
+            - -c
+          args:
+            - |
+              aws s3 cp s3://{{ .Values.s3.bucketName }}/{{ .Values.s3.folderPath }} /home/user/.fhevm-go/keys --recursive
+          env:
+            - name: AWS_ACCESS_KEY_ID
+              valueFrom:
+                secretKeyRef:
+                  name: "{{ .Values.s3.secretName }}"
+                  key: AWS_ACCESS_KEY_ID
+            - name: AWS_SECRET_ACCESS_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: "{{ .Values.s3.secretName }}"
+                  key: AWS_SECRET_ACCESS_KEY
+          volumeMounts:
+            - name: fhevm-keys
+              mountPath: /home/user/.fhevm-go/keys # Path where files are stored temporarily
+      containers:
+        - name: nitro-node
+          image: "{{ .Values.node.image }}"
+          args:
+            - --parent-chain.connection.url={{ .Values.node.parentChainUrl }}
+            - --chain.id={{ .Values.node.chainId }}
+            - --chain.name={{ .Values.node.chainName }}
+            - --http.api={{ .Values.node.httpApi }}
+            - --http.corsdomain={{ .Values.node.httpCorsDomain }}
+            - --http.addr={{ .Values.node.httpAddr }}
+            - --http.vhosts={{ .Values.node.httpVhosts }}
+            - --ws.port={{ .Values.node.wsPort }}
+            - --ws.addr={{ .Values.node.wsAddr }}
+            - --ws.origins={{ .Values.node.wsOrigins }}
+            - --execution.forwarding-target={{ .Values.node.executionForwardingTarget }}
+            - --node.data-availability.enable
+            - --node.data-availability.rest-aggregator.enable
+            - --node.data-availability.rest-aggregator.urls={{ .Values.node.dataAvailabilityUrls }}
+            - --node.feed.input.url={{ .Values.node.feedInputUrl }}
+            - --node.staker.enable={{ .Values.node.stakerEnable }}
+            - --chain.info-json={{ .Values.node.chainInfoJson }}
+            - --execution.rpc.evm-timeout={{ .Values.node.evmTimeout }}
+            - --execution.caching.database-cache={{ .Values.node.dbCache }}
+            - --execution.caching.archive	
+          ports:
+            - name: http
+              containerPort: 8547
+            - name: websocket
+              containerPort: 8548
+          volumeMounts:
+            - name: arbitrum-data
+              mountPath: /home/user/.arbitrum  # Path inside the container
+            - name: fhevm-keys
+              mountPath: /home/user/.fhevm-go/keys 
+      volumes:
+        - name: node-storage
+          persistentVolumeClaim:
+            claimName: {{ .Release.Name }}-node-pvc
+        - name: arbitrum-data
+          emptyDir: {}
+        - name: fhevm-keys
+          emptyDir: {}
+        
+        

@@ -1,0 +1,23 @@
+s3:
+  bucketName: fhe-keys
+  folderPath: network-fhe-keys
+  secretName: aws-creds
+node:
+  image: "antongulak/nitro:stable"
+  parentChainUrl: "https://arb-sepolia.g.alchemy.com/v2/J6ReedhfHGJsUOLlcY7fN1y3FeMPjsk3"
+  chainId: 10111
+  chainName: "Cypher testnet"
+  httpApi: "net,web3,eth"
+  httpCorsDomain: "*"
+  httpAddr: "0.0.0.0"
+  httpVhosts: "*"
+  wsPort: 8548
+  wsAddr: "0.0.0.0"
+  wsOrigins: "*"
+  executionForwardingTarget: "http://10.20.6.57:8449"
+  dataAvailabilityUrls: "http://10.20.6.57:9877"
+  feedInputUrl: "ws://10.20.6.57:9642"
+  stakerEnable: false
+  evmTimeout: 0
+  dbCache: 8192
+  chainInfoJson: '[{"chain-id":10111,"parent-chain-id":421614,"parent-chain-is-arbitrum":true,"chain-name":"Cypher testnet","chain-config":{"homesteadBlock":0,"daoForkBlock":null,"daoForkSupport":true,"eip150Block":0,"eip150Hash":"0x0000000000000000000000000000000000000000000000000000000000000000","eip155Block":0,"eip158Block":0,"byzantiumBlock":0,"constantinopleBlock":0,"petersburgBlock":0,"istanbulBlock":0,"muirGlacierBlock":0,"berlinBlock":0,"londonBlock":0,"clique":{"period":0,"epoch":0},"arbitrum":{"EnableArbOS":true,"AllowDebugPrecompiles":false,"DataAvailabilityCommittee":true,"InitialArbOSVersion":32,"GenesisBlockNum":0,"MaxCodeSize":24576,"MaxInitCodeSize":49152,"InitialChainOwner":"0x4122512d36F94A0B30e3Ffe75106772d9FA49d41"},"chainId":10111},"rollup":{"bridge":"0xA3aF80FDEA6d3cd6aC15d4647D64BB9809C323d6","inbox":"0xF85d55b257Ca2fC2A0aa08a527dD86dB60F0cB03","sequencer-inbox":"0x51D97A3B19766346F2Cd3d6E71b8125466ac874a","rollup":"0x0196718C7C6211ECBa3Ca70044F65429f4CFA564","validator-utils":"0x7C100c97a54e2D309a194752Df2f66922A802be3","validator-wallet-creator":"0xFAd2C6Cb969Ab7B18d78BD63e512b650bb70B570","deployed-at":103444288}}]'
