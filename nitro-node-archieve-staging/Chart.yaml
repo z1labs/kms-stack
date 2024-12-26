@@ -1,0 +1,5 @@
+apiVersion: v2
+name: nitro-node
+description: A Helm chart for deploying a custom node
+version: 0.1.0
+appVersion: "1.0"
