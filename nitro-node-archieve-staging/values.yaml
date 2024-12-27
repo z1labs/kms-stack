@@ -18,7 +18,7 @@ node:
   executionForwardingTarget: "https://staging-node-rpc.cypherscan.ai"
   dataAvailabilityUrls: "http://3.14.246.176:9877"
   feedInputUrl: "ws://3.14.246.176:9642"
-  stakerEnable: false
+  stakerEnable: true
   validatorOffEnable: true
   evmTimeout: 0
   dbCache: 8192
