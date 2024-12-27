@@ -2,7 +2,7 @@ s3:
   bucketName: fhe-keys
   folderPath: network-fhe-keys
   secretName: aws-creds
-  snapshotFilePath: snapshot-stage.tar.gz
+  # snapshotFilePath: snapshot-stage.tar.gz
 node:
   image: "590184127530.dkr.ecr.us-east-2.amazonaws.com/cypher/nitro:time"
   parentChainUrl: "https://arb-sepolia.g.alchemy.com/v2/J6ReedhfHGJsUOLlcY7fN1y3FeMPjsk3"

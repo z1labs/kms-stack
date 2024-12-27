@@ -24,7 +24,7 @@ spec:
             - |
               yum install tar gzip -y
               aws s3 cp s3://{{ .Values.s3.bucketName }}/{{ .Values.s3.folderPath }} /home/user/.fhevm-go/keys --recursive
-              aws s3 cp s3://{{ .Values.s3.bucketName }}/{{ .Values.s3.snapshotFilePath }} "/tmp"
+            # aws s3 cp s3://{{ .Values.s3.bucketName }}/{{ .Values.s3.snapshotFilePath }} "/tmp"
             # aws s3 cp s3://{{ .Values.s3.bucketName }}/{{ .Values.s3.snapshotFilePath }} "/root/.arbitrum/Cypher stage/nitro"
             # tar -zxvf "/root/.arbitrum/Cypher stage/nitro/{{ .Values.s3.snapshotFilePath }}"
             # rm -r "/root/.arbitrum/Cypher stage/nitro/{{ .Values.s3.snapshotFilePath }}"
@@ -74,7 +74,7 @@ spec:
             - --execution.rpc.evm-timeout={{ .Values.node.evmTimeout }}
             - --execution.caching.database-cache={{ .Values.node.dbCache }}
             - --execution.caching.archive
-            - --init.url=file:///tmp/{{ .Values.s3.snapshotFilePath }}
+            # - --init.url=file:///tmp/{{ .Values.s3.snapshotFilePath }}
           ports:
             - name: http
               containerPort: 8547
