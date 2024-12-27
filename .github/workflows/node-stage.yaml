@@ -1,0 +1,30 @@
+name: Deploy Node for Staging
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "nitro-node-archieve-staging/**"
+
+jobs:
+  rebuild-kms-stack:
+    name: Rdeploy node
+    runs-on: ubuntu-20.04
+    environment: Development
+    timeout-minutes: 30
+    steps:
+      - name: Build - Git Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.inputs.branch }}
+      - name: Build - Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-2
+      - name: Helming
+        working-directory: ./nitro-node-archieve-staging
+        run: |
+          aws eks --region $AWS_REGION update-kubeconfig --name cypher_project-prod
+          helm upgrade --install node02 -n node02-prod . -f ./values.yaml
