@@ -18,8 +18,9 @@ node:
   executionForwardingTarget: "https://staging-node-rpc.cypherscan.ai"
   dataAvailabilityUrls: "http://3.14.246.176:9877"
   feedInputUrl: "ws://3.14.246.176:9642"
-  stakerEnable: true
+  stakerEnable: false
   validatorOffEnable: true
+  blockValidatorEnable: false
   evmTimeout: 0
   dbCache: 8192
   chainInfoJson: '[{"chain-id":46418212302,"parent-chain-id":421614,"parent-chain-is-arbitrum":true,"chain-name":"Cypher stage","chain-config":{"homesteadBlock":0,"daoForkBlock":null,"daoForkSupport":true,"eip150Block":0,"eip150Hash":"0x0000000000000000000000000000000000000000000000000000000000000000","eip155Block":0,"eip158Block":0,"byzantiumBlock":0,"constantinopleBlock":0,"petersburgBlock":0,"istanbulBlock":0,"muirGlacierBlock":0,"berlinBlock":0,"londonBlock":0,"clique":{"period":0,"epoch":0},"arbitrum":{"EnableArbOS":true,"AllowDebugPrecompiles":false,"DataAvailabilityCommittee":true,"InitialArbOSVersion":32,"GenesisBlockNum":0,"MaxCodeSize":24576,"MaxInitCodeSize":49152,"InitialChainOwner":"0x4F88ef7Aa485Fe786A1c9026136d116BdCA87e3A"},"chainId":46418212302},"rollup":{"bridge":"0x2fFD734d02BF46716612150d2Dd70BA7dBf06e7e","inbox":"0xEfA565Ec7997b44c4EB714340A63AA7bdC0404C9","sequencer-inbox":"0xAA35555459Cac7d71e319E890F3c3BAbE6249999","rollup":"0x337F7dcDd42D974635Ac8b002cF4E1b896a17E55","validator-utils":"0x7C100c97a54e2D309a194752Df2f66922A802be3","validator-wallet-creator":"0xFAd2C6Cb969Ab7B18d78BD63e512b650bb70B570","deployed-at":110829945}}]'
