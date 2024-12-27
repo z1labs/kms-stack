@@ -82,7 +82,7 @@ spec:
               containerPort: 8548
           volumeMounts:
             - name: arbitrum-data
-              mountPath: /root/.arbitrum  # Path inside the container
+              mountPath: /home/user/.arbitrum # Path inside the container
             - name: fhevm-keys
               mountPath: /home/user/.fhevm-go/keys
             - name: snapshot-data
