@@ -52,7 +52,7 @@ spec:
         - name: nitro-node
           image: "{{ .Values.node.image }}"
           args:
-            - --log-level="DEBUG"
+            - --log-level=DEBUG
             - --parent-chain.connection.url={{ .Values.node.parentChainUrl }}
             - --chain.id={{ .Values.node.chainId }}
             - --chain.name={{ .Values.node.chainName }}
