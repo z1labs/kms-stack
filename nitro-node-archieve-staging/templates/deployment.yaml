@@ -68,7 +68,7 @@ spec:
             - --node.data-availability.rest-aggregator.urls={{ .Values.node.dataAvailabilityUrls }}
             - --node.feed.input.url={{ .Values.node.feedInputUrl }}
             - --node.staker.enable={{ .Values.node.stakerEnable }}
-            - --node.block-validator.enable=={{ .Values.node.blockValidatorEnable }}
+            - --node.block-validator.enable={{ .Values.node.blockValidatorEnable }}
             - --node.staker.dangerous.without-block-validator={{ .Values.node.validatorOffEnable }}
             - --chain.info-json={{ .Values.node.chainInfoJson }}
             - --execution.rpc.evm-timeout={{ .Values.node.evmTimeout }}
